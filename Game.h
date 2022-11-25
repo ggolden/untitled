@@ -5,21 +5,21 @@
 #ifndef UNTITLED_GAME_H
 #define UNTITLED_GAME_H
 
+#include <vector>
 #include "Level.h"
 #include "Terminal.h"
+#include "Player.h"
 
 class Game {
+    std::vector<Level> levels;
+    Player player;
+
+    void init();
+
 public:
-    Game(const Terminal &termainal, const Level &level);
+    Game();
 
-    const Level& getLevel() const;
-
-    void start();
-
-private:
-    Level level;
-    Terminal terminal;
+    void play(Terminal &terminal);
 };
-
 
 #endif //UNTITLED_GAME_H

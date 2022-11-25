@@ -1,29 +1,55 @@
-//
-// Created by Glenn R. Golden on 11/21/22.
-//
-
 #include <curses.h>
+#include <iostream>
 #include "Terminal.h"
 
-Terminal::Terminal() {
-    initscr();
-    curs_set(0);
-    cbreak();
-    noecho();
-    clear();
-    refresh();
+Terminal::Terminal(bool debug) : debug(debug) {
+    if (!debug) {
+        initscr();
+        curs_set(0);
+//    timeout(0);
+        noecho();
+        erase(); // or clear() ?
+        refresh();
+    } else {
+    }
 }
 
 Terminal::~Terminal() {
-    endwin();
+    if (!debug) {
+        endwin();
+    }
+}
+
+void Terminal::setOffset(const Position &newOffset) {
+    Terminal::offset = newOffset;
 }
 
 void Terminal::clearScreen() {
-    clear();
-    refresh();
+    if (!debug) {
+        erase(); // clear();
+        refresh();
+    } else {
+        std::cout << "CLEAR" << std::endl << std::endl;
+    }
 }
 
-void Terminal::display(char c, Position position) {
-    mvaddch(position.getRow(), position.getCol(), c);
-    refresh();
+void Terminal::display(char c, const Position &position) {
+    Position offsetPosition = position + offset;
+
+    if (!debug) {
+        mvaddch(offsetPosition.getRow(), offsetPosition.getCol(), c);
+        refresh();
+    } else {
+        std::cout << c << " @ " << offsetPosition.getRow() << "," << offsetPosition.getCol() << std::endl;
+    }
+}
+
+char Terminal::read() {
+    if (!debug) {
+        return getch();
+    } else {
+        char c;
+        std::cin >> c;
+        return c;
+    }
 }

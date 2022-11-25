@@ -1,43 +1,40 @@
-//
-// Created by Glenn R. Golden on 11/21/22.
-//
-#include <iostream>
 #include "Level.h"
 
-Level::Level(const Size &size, const Position &offset, const Terminal &terminal) : size(size), offset(offset),
-                                                                                   terminal(terminal) {}
+#include <utility>
 
-const Size &Level::getSize() const {
-    return size;
+Level::Level(std::string name, const Size &size, const Position &offset) : name(name), size(size), offset(offset) {}
+
+const std::string &Level::getName() const {
+    return name;
 }
 
-const Terminal &Level::getTerminal() const {
-    return terminal;
+const Position &Level::getOffset() const {
+    return offset;
 }
 
-void Level::display() {
-//    std::cout << "Level size: " << size.getRows() << " x " << size.getCols() << std::endl;
-
-    displayBorderRow(-1);
+void Level::display(Terminal &terminal) const {
+    displayBorderRow(-1, terminal);
     for (int i = 0; i < size.getRows(); i++) {
-        displayInteriorRow(i);
+        displayInteriorRow(i, terminal);
     }
-    displayBorderRow(size.getRows());
+    displayBorderRow(size.getRows(), terminal);
+
+//    displayPlayer();
 }
 
-void Level::displayBorderRow(int row) {
-    terminal.display('+', Position(offset.getRow() + row, offset.getCol() + -1));
+void Level::displayBorderRow(int row, Terminal &terminal) const {
+    terminal.display('+', {row, -1});
 
     for (int i = 0; i < size.getCols(); i++) {
-        terminal.display('=', Position(offset.getRow() + row, offset.getCol() + i));
+        terminal.display('=', {row, i});
     }
-    terminal.display('+', Position(offset.getRow() + row, offset.getCol() + size.getCols()));
+    terminal.display('+', {row, size.getCols()});
 }
 
-void Level::displayInteriorRow(int row) {
-    terminal.display('|', Position(offset.getRow() + row, offset.getCol() + -1));
+void Level::displayInteriorRow(int row, Terminal &terminal) const {
+    terminal.display('|', {row, -1});
     for (int i = 0; i < size.getCols(); i++) {
-        terminal.display('.', Position(offset.getRow() + row, offset.getCol() + i));
+        terminal.display('.', {row, i});
     }
-    terminal.display('|', Position(offset.getRow() + row, offset.getCol() + size.getCols()));
+    terminal.display('|', {row, size.getCols()});
 }

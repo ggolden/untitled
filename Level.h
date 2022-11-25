@@ -1,29 +1,28 @@
-//
-// Created by Glenn R. Golden on 11/21/22.
-//
-
 #ifndef UNTITLED_LEVEL_H
 #define UNTITLED_LEVEL_H
 
+#include <string>
 #include "Size.h"
 #include "Terminal.h"
+#include "Player.h"
 
 class Level {
-public:
-    Level(const Size &size, const Position &offset, const Terminal &terminal);
-
-    void display();
-
-    const Size &getSize() const;
-    const Terminal &getTerminal() const;
-
-private:
-    void displayBorderRow(int row);
-    void displayInteriorRow(int row);
-
+    std::string name;
     Size size;
     Position offset;
-    Terminal terminal;
+
+    void displayBorderRow(int row, Terminal &terminal) const;
+
+    void displayInteriorRow(int row, Terminal &terminal) const;
+
+public:
+    Level(std::string name, const Size &size, const Position &offset);
+
+    const std::string &getName() const;
+
+    const Position &getOffset() const;
+
+    void display(Terminal &terminal) const;
 };
 
 #endif //UNTITLED_LEVEL_H
