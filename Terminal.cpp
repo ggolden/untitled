@@ -6,9 +6,9 @@ Terminal::Terminal(bool debug) : debug(debug) {
     if (!debug) {
         initscr();
         curs_set(0);
-//    timeout(0);
+//    timeout(0); // for non-blocking getch()
         noecho();
-        erase(); // or clear() ?
+        clear(); // or erase()?
         refresh();
     } else {
     }
@@ -27,9 +27,16 @@ void Terminal::setOffset(const Position &newOffset) {
 void Terminal::clearScreen() {
     if (!debug) {
         erase(); // clear();
-        refresh();
     } else {
         std::cout << "CLEAR" << std::endl << std::endl;
+    }
+}
+
+void Terminal::refreshScreen() {
+    if (!debug) {
+        refresh();
+    } else {
+        std::cout << "REFRESH" << std::endl << std::endl;
     }
 }
 
@@ -38,7 +45,6 @@ void Terminal::display(char c, const Position &position) {
 
     if (!debug) {
         mvaddch(offsetPosition.getRow(), offsetPosition.getCol(), c);
-        refresh();
     } else {
         std::cout << c << " @ " << offsetPosition.getRow() << "," << offsetPosition.getCol() << std::endl;
     }

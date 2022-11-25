@@ -82,6 +82,8 @@ void Game::play(Terminal &terminal) {
         level.display(terminal);
         player.display(terminal);
 
+        terminal.refreshScreen();
+
         // get and act on input
         char input = terminal.read();
         Command command = parse(input);

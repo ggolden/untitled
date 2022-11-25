@@ -16,6 +16,8 @@ public:
 
     void clearScreen();
 
+    void refreshScreen();
+
     void display(char c, const Position &position);
 
     char read();
