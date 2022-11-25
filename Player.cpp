@@ -10,6 +10,10 @@ const Position &Player::getPosition() const {
     return position;
 }
 
+void Player::setPosition(const Position &newPosition) {
+    position = newPosition;
+}
+
 int Player::getLevelIndex() const {
     return levelIndex;
 }

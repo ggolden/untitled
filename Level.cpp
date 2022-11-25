@@ -12,6 +12,10 @@ const Position &Level::getOffset() const {
     return offset;
 }
 
+const Size &Level::getSize() const {
+    return size;
+}
+
 void Level::display(Terminal &terminal) const {
     displayBorderRow(-1, terminal);
     for (int i = 0; i < size.getRows(); i++) {

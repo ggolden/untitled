@@ -16,6 +16,8 @@ public:
 
     const Position &getPosition() const;
 
+    void setPosition(const Position &newPosition);
+
     int getLevelIndex() const;
 
     void setLevelIndex(int levelIndex);

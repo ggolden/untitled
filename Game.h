@@ -9,12 +9,16 @@
 #include "Level.h"
 #include "Terminal.h"
 #include "Player.h"
+#include "Command.h"
 
 class Game {
     std::vector<Level> levels;
     Player player;
 
     void init();
+    static Command parse(char input);
+    void process(Command command);
+    void movePlayer(const Position & delta);
 
 public:
     Game();

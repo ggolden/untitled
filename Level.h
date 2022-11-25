@@ -22,6 +22,8 @@ public:
 
     const Position &getOffset() const;
 
+    const Size &getSize() const;
+
     void display(Terminal &terminal) const;
 };
 
