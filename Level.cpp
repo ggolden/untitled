@@ -1,8 +1,33 @@
 #include "Level.h"
+#include "Object.h"
+#include "ObjectType.h"
 
-#include <utility>
+Level::Level(std::string name, const Size &size, const Position &offset) : name(name), size(size), offset(offset) {
+    init();
+}
 
-Level::Level(std::string name, const Size &size, const Position &offset) : name(name), size(size), offset(offset) {}
+void Level::init() {
+    createWalls();
+}
+
+void Level::createWalls() {
+    objects.push_back(Object('+', Position(0,0), ObjectType::WALL));
+    for (int col = 1; col < size.getCols()-1; col++) {
+        objects.push_back(Object('=', Position(0, col), ObjectType::WALL));
+    }
+    objects.push_back(Object('+', Position(0,size.getCols()-1), ObjectType::WALL));
+
+    for (int row = 1; row < size.getRows()-1; row++) {
+        objects.push_back(Object('|', Position(row,0), ObjectType::WALL));
+        objects.push_back(Object('|', Position(row,size.getCols()-1), ObjectType::WALL));
+    }
+
+    objects.push_back(Object('+', Position(size.getRows()-1,0), ObjectType::WALL));
+    for (int col = 1; col < size.getCols()-1; col++) {
+        objects.push_back(Object('=', Position(size.getRows()-1, col), ObjectType::WALL));
+    }
+    objects.push_back(Object('+', Position(size.getRows()-1,size.getCols()-1), ObjectType::WALL));
+}
 
 const std::string &Level::getName() const {
     return name;
@@ -17,28 +42,7 @@ const Size &Level::getSize() const {
 }
 
 void Level::display(Terminal &terminal) const {
-    displayBorderRow(-1, terminal);
-    for (int i = 0; i < size.getRows(); i++) {
-        displayInteriorRow(i, terminal);
+    for (Object object : objects) {
+        object.display(terminal);
     }
-    displayBorderRow(size.getRows(), terminal);
-
-//    displayPlayer();
-}
-
-void Level::displayBorderRow(int row, Terminal &terminal) const {
-    terminal.display('+', {row, -1});
-
-    for (int i = 0; i < size.getCols(); i++) {
-        terminal.display('=', {row, i});
-    }
-    terminal.display('+', {row, size.getCols()});
-}
-
-void Level::displayInteriorRow(int row, Terminal &terminal) const {
-    terminal.display('|', {row, -1});
-    for (int i = 0; i < size.getCols(); i++) {
-        terminal.display('.', {row, i});
-    }
-    terminal.display('|', {row, size.getCols()});
 }

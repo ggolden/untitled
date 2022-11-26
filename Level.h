@@ -2,18 +2,20 @@
 #define UNTITLED_LEVEL_H
 
 #include <string>
+#include <vector>
 #include "Size.h"
 #include "Terminal.h"
 #include "Player.h"
+#include "Object.h"
 
 class Level {
     std::string name;
     Size size;
     Position offset;
+    std::vector<Object> objects;
 
-    void displayBorderRow(int row, Terminal &terminal) const;
-
-    void displayInteriorRow(int row, Terminal &terminal) const;
+    void init();
+    void createWalls();
 
 public:
     Level(std::string name, const Size &size, const Position &offset);

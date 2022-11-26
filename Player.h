@@ -7,7 +7,7 @@
 class Player {
     char displayChar = '@';
     int levelIndex = 0;
-    Position position{0, 0};
+    Position position{1, 1};
 
 public:
     Player();

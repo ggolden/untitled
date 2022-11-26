@@ -11,7 +11,7 @@ Game::Game() {
 void Game::init() {
     // construct levels
     // could be push_back()
-    levels.push_back(Level("Singularity", Size(20, 20), Position(5, 5)));
+    levels.push_back(Level("Singularity", Size(3, 3), Position(5, 5)));
     levels.push_back(Level("DO NOT ENTER", Size(5, 5), Position(10, 10)));
 }
 
