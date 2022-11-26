@@ -4,6 +4,7 @@
 enum class ObjectType {
     PLAYER,
     WALL,
+    GOAL,
     SPACE
 };
 

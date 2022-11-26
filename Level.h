@@ -16,6 +16,7 @@ class Level {
 
     void init();
     void createWalls();
+    void createGoal();
 
 public:
     Level(std::string name, const Size &size, const Position &offset);

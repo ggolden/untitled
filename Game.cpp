@@ -35,19 +35,28 @@ Command Game::parse(char input) {
     }
 }
 
-void Game::process(Command command) {
+void Game::movePlayerIfPossible(const Position &delta) {
+    Position newPosition = player.getPosition() + delta;
+    Level &level = levels.at(player.getLevelIndex());
+    Object objectAtPosition = level.getObjectAt(newPosition);
+    if (objectAtPosition.getType() != ObjectType::WALL) {
+        player.setPosition(newPosition);
+    }
+}
+
+void Game::processPlayerMovement(Command command) {
     switch (command) {
         case Command::UP:
-            movePlayer(Position(-1, 0));
+            movePlayerIfPossible(Position(-1, 0));
             break;
         case Command::RIGHT:
-            movePlayer(Position(0, 1));
+            movePlayerIfPossible(Position(0, 1));
             break;
         case Command::DOWN:
-            movePlayer(Position(1, 0));
+            movePlayerIfPossible(Position(1, 0));
             break;
         case Command::LEFT:
-            movePlayer(Position(0, -1));
+            movePlayerIfPossible(Position(0, -1));
             break;
         case Command::QUIT:
         case Command::OTHER:
@@ -55,13 +64,13 @@ void Game::process(Command command) {
     }
 }
 
-void Game::movePlayer(const Position &delta) {
-    Position newPosition = player.getPosition() + delta;
+// return game running status
+bool Game::processPlayerInteraction() {
     Level &level = levels.at(player.getLevelIndex());
-    Object objectAtPosition = level.getObjectAt(newPosition);
-    if (objectAtPosition.getType() != ObjectType::WALL) {
-        player.setPosition(newPosition);
-    }
+    Object objectAtPosition = level.getObjectAt(player.getPosition());
+
+    bool goalAchieved = objectAtPosition.getType() == ObjectType::GOAL;
+    return !goalAchieved;
 }
 
 void Game::play(Terminal &terminal) {
@@ -82,9 +91,10 @@ void Game::play(Terminal &terminal) {
         // get and act on input
         char input = terminal.read();
         Command command = parse(input);
-        process(command);
+        processPlayerMovement(command);
+        bool gameRunning = processPlayerInteraction();
 
-        if (command == Command::QUIT) {
+        if (command == Command::QUIT || !gameRunning) {
             break;
         }
     } while (true);
