@@ -46,3 +46,13 @@ void Level::display(Terminal &terminal) const {
         object.display(terminal);
     }
 }
+
+Object Level::getObjectAt(const Position &position) const {
+    for (Object object : objects) {
+        if (object.getPosition() == position) {
+            return object;
+        }
+    }
+
+    return Object(' ', position, ObjectType::SPACE);
+}

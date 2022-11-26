@@ -13,6 +13,8 @@ public:
     int getCol() const;
 
     Position operator+(const Position &positionToAdd) const;
+
+    bool operator==(const Position &otherPosition) const;
 };
 
 #endif //UNTITLED_POSITION_H

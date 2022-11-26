@@ -27,6 +27,8 @@ public:
     const Size &getSize() const;
 
     void display(Terminal &terminal) const;
+
+    Object getObjectAt(const Position &position) const;
 };
 
 #endif //UNTITLED_LEVEL_H

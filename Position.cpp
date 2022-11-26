@@ -14,3 +14,7 @@ Position Position::operator+(const Position &positionToAdd) const {
     // return Position(row + positionToAdd.getRow(), col + positionToAdd.getCol());
     return {row + positionToAdd.getRow(), col + positionToAdd.getCol()};
 }
+
+bool Position::operator==(const Position &otherPosition) const {
+    return otherPosition.getCol() == getCol() && otherPosition.getRow() == getRow();
+}

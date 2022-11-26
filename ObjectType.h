@@ -3,7 +3,8 @@
 
 enum class ObjectType {
     PLAYER,
-    WALL
+    WALL,
+    SPACE
 };
 
 #endif //UNTITLED_OBJECTTYPE_H

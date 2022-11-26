@@ -1,4 +1,3 @@
-#include <curses.h>
 #include <iostream>
 #include "Game.h"
 #include "Level.h"
@@ -10,8 +9,7 @@ Game::Game() {
 
 void Game::init() {
     // construct levels
-    // could be push_back()
-    levels.push_back(Level("Singularity", Size(3, 3), Position(5, 5)));
+    levels.emplace_back("Singularity", Size(9, 14), Position(5, 5));
     levels.push_back(Level("DO NOT ENTER", Size(5, 5), Position(10, 10)));
 }
 
@@ -60,11 +58,8 @@ void Game::process(Command command) {
 void Game::movePlayer(const Position &delta) {
     Position newPosition = player.getPosition() + delta;
     Level &level = levels.at(player.getLevelIndex());
-
-    if (newPosition.getRow() >= 0 && //
-        newPosition.getRow() < level.getSize().getRows() && //
-        newPosition.getCol() >= 0 && //
-        newPosition.getCol() < level.getSize().getCols()) {
+    Object objectAtPosition = level.getObjectAt(newPosition);
+    if (objectAtPosition.getType() != ObjectType::WALL) {
         player.setPosition(newPosition);
     }
 }
