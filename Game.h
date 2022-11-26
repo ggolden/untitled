@@ -17,9 +17,10 @@ class Game {
 
     void init();
     static Command parse(char input);
-    void processPlayerMovement(Command command);
-    void movePlayerIfPossible(const Position & delta);
-    bool processPlayerInteraction();
+    void movePlayerIfPossible(const Position & newPosition, const Object &objectAtPosition);
+    bool processPlayerInteraction(const Object &objectAtPosition);
+
+    Position computeNewPlayerPosition(Command command);
 
 public:
     Game();
