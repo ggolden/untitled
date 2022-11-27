@@ -18,13 +18,15 @@ class Object {
 public:
     Object(char displayChar, const Position &position, ObjectType type);
 
-    void display(Terminal &terminal);
-
     char getDisplayChar() const;
 
     const Position &getPosition() const;
 
+    void setPosition(const Position &newPosition);
+
     ObjectType getType() const;
+
+    void display(Terminal &terminal);
 };
 
 

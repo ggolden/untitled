@@ -13,7 +13,7 @@
 
 class Game {
     std::vector<Level> levels;
-    Player player;
+    Player player {0, Position(1,1)};
 
     void init();
     static Command parse(char input);

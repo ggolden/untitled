@@ -1,18 +1,8 @@
 #include "Player.h"
 
-Player::Player() {}
-
-char Player::getDisplayChar() const {
-    return displayChar;
-}
-
-const Position &Player::getPosition() const {
-    return position;
-}
-
-void Player::setPosition(const Position &newPosition) {
-    position = newPosition;
-}
+Player::Player(int startingLevelIndex, const Position &startingPosition) : //
+        Object('@', startingPosition, ObjectType::PLAYER), //
+        levelIndex(startingLevelIndex) {}
 
 int Player::getLevelIndex() const {
     return levelIndex;
@@ -20,8 +10,4 @@ int Player::getLevelIndex() const {
 
 void Player::setLevelIndex(int levelIndex) {
     Player::levelIndex = levelIndex;
-}
-
-void Player::display(Terminal &terminal) {
-    terminal.display(getDisplayChar(), getPosition());
 }

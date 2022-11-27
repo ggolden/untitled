@@ -1,6 +1,8 @@
 #include "Level.h"
 #include "Object.h"
+#include "Wall.h"
 #include "ObjectType.h"
+#include "Goal.h"
 
 Level::Level(std::string name, const Size &size, const Position &offset) : name(name), size(size), offset(offset) {
     init();
@@ -12,26 +14,26 @@ void Level::init() {
 }
 
 void Level::createWalls() {
-    objects.push_back(Object('+', Position(0, 0), ObjectType::WALL));
+    objects.push_back(Wall(Wall::WallType::CORNER, Position(0, 0)));
     for (int col = 1; col < size.getCols() - 1; col++) {
-        objects.push_back(Object('=', Position(0, col), ObjectType::WALL));
+        objects.push_back(Wall(Wall::WallType::HORIZONTAL, Position(0, col)));
     }
-    objects.push_back(Object('+', Position(0, size.getCols() - 1), ObjectType::WALL));
+    objects.push_back(Wall(Wall::WallType::CORNER, Position(0, size.getCols() - 1)));
 
     for (int row = 1; row < size.getRows() - 1; row++) {
-        objects.push_back(Object('|', Position(row, 0), ObjectType::WALL));
-        objects.push_back(Object('|', Position(row, size.getCols() - 1), ObjectType::WALL));
+        objects.push_back(Wall(Wall::WallType::VERTICAL, Position(row, 0)));
+        objects.push_back(Wall(Wall::WallType::VERTICAL, Position(row, size.getCols() - 1)));
     }
 
-    objects.push_back(Object('+', Position(size.getRows() - 1, 0), ObjectType::WALL));
+    objects.push_back(Wall(Wall::WallType::CORNER, Position(size.getRows() - 1, 0)));
     for (int col = 1; col < size.getCols() - 1; col++) {
-        objects.push_back(Object('=', Position(size.getRows() - 1, col), ObjectType::WALL));
+        objects.push_back(Wall(Wall::WallType::HORIZONTAL, Position(size.getRows() - 1, col)));
     }
-    objects.push_back(Object('+', Position(size.getRows() - 1, size.getCols() - 1), ObjectType::WALL));
+    objects.push_back(Wall(Wall::WallType::CORNER, Position(size.getRows() - 1, size.getCols() - 1)));
 }
 
 void Level::createGoal() {
-    objects.push_back(Object('P', Position(size.getRows() - 2, size.getCols() - 2), ObjectType::GOAL));
+    objects.push_back(Goal(Position(size.getRows() - 2, size.getCols() - 2)));
 }
 
 const std::string &Level::getName() const {

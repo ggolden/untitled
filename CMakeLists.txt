@@ -6,6 +6,6 @@ include_directories(${CURSES_INCLUDE_DIR})
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(untitled main.cpp Game.cpp Game.h Level.cpp Level.h Size.cpp Size.h Terminal.cpp Terminal.h Position.cpp Position.h Player.cpp Player.h Command.h Object.cpp Object.h ObjectType.h)
+add_executable(untitled main.cpp Game.cpp Game.h Level.cpp Level.h Size.cpp Size.h Terminal.cpp Terminal.h Position.cpp Position.h Player.cpp Player.h Command.h Object.cpp Object.h ObjectType.h Wall.cpp Wall.h Goal.cpp Goal.h)
 
 target_link_libraries(untitled ${CURSES_LIBRARIES})

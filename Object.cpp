@@ -1,7 +1,3 @@
-//
-// Created by Glenn R. Golden on 11/26/22.
-//
-
 #include "Object.h"
 
 Object::Object(char displayChar, const Position &position, ObjectType type) : displayChar(displayChar),
@@ -12,6 +8,10 @@ char Object::getDisplayChar() const {
 
 const Position &Object::getPosition() const {
     return position;
+}
+
+void Object::setPosition(const Position &newPosition) {
+    position = newPosition;
 }
 
 ObjectType Object::getType() const {

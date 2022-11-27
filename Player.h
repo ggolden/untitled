@@ -2,27 +2,18 @@
 #define UNTITLED_PLAYER_H
 
 #include "Position.h"
-#include "Terminal.h"
+//#include "Terminal.h"
+#include "Object.h"
 
-class Player {
-    char displayChar = '@';
+class Player : public Object {
     int levelIndex = 0;
-    Position position{1, 1};
 
 public:
-    Player();
-
-    char getDisplayChar() const;
-
-    const Position &getPosition() const;
-
-    void setPosition(const Position &newPosition);
+    Player(int startingLevelIndex, const Position &startingPosition);
 
     int getLevelIndex() const;
 
     void setLevelIndex(int levelIndex);
-
-    void display(Terminal &terminal);
 };
 
 #endif //UNTITLED_PLAYER_H
