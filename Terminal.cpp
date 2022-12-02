@@ -6,10 +6,16 @@ Terminal::Terminal(bool debug) : debug(debug) {
     if (!debug) {
         initscr();
         curs_set(0);
+        cbreak();
+
+        // enable function key recognition, with a short delay after seeing the esc
+        keypad(stdscr, true);
+        set_escdelay(100);
+
 //    timeout(0); // for non-blocking getch()
-        noecho();
-        clear(); // or erase()?
-        refresh();
+//        noecho();
+//        clear(); // or erase()?
+//        refresh();
     } else {
     }
 }
@@ -40,7 +46,7 @@ void Terminal::refreshScreen() {
     }
 }
 
-void Terminal::display(char c, const Position &position) {
+void Terminal::display(int c, const Position &position) {
     Position offsetPosition = position + offset;
 
     if (!debug) {
@@ -50,11 +56,11 @@ void Terminal::display(char c, const Position &position) {
     }
 }
 
-char Terminal::read() {
+int Terminal::read() {
     if (!debug) {
         return getch();
     } else {
-        char c;
+        int c;
         std::cin >> c;
         return c;
     }

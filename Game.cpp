@@ -1,4 +1,5 @@
 #include <iostream>
+#include <curses.h>
 #include "Game.h"
 #include "Level.h"
 #include "Command.h"
@@ -13,23 +14,28 @@ void Game::init() {
     levels.emplace_back("DO NOT ENTER", Size(5, 5), Position(10, 10));
 }
 
-Command Game::parse(char input) {
+Command Game::parse(int input) {
     switch (input) {
         case 'q':
-            //case 27: // ESC
+        case 0x1b: // ESC
             return Command::QUIT;
-        case 65: // arrow up
+
+        case KEY_UP:
         case 'w':
             return Command::UP;
-        case 67:
+
+        case KEY_RIGHT:
         case 'd':
             return Command::RIGHT;
-        case 66:
+
+        case KEY_DOWN:
         case 's':
             return Command::DOWN;
-        case 68:
+
+        case KEY_LEFT:
         case 'a':
             return Command::LEFT;
+
         default:
             return Command::OTHER;
     }
@@ -77,7 +83,7 @@ void Game::play(Terminal &terminal) {
         terminal.refreshScreen();
 
         // get and act on input
-        char input = terminal.read();
+        int input = terminal.read();
         Command command = parse(input);
         Position newPlayerPosition = computeNewPlayerPosition(command);
         Object objectAtPosition = level.getObjectAt(newPlayerPosition);

@@ -18,9 +18,9 @@ public:
 
     void refreshScreen();
 
-    void display(char c, const Position &position);
+    void display(int c, const Position &position);
 
-    char read();
+    int read();
 };
 
 #endif //UNTITLED_TERMINAL_H

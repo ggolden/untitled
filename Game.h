@@ -16,7 +16,7 @@ class Game {
     Player player {0, Position(1,1)};
 
     void init();
-    static Command parse(char input);
+    static Command parse(int input);
     void movePlayerIfPossible(const Position & newPosition, const Object &objectAtPosition);
     bool processPlayerInteraction(const Object &objectAtPosition);
 

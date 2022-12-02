@@ -1,8 +1,9 @@
 #include "Object.h"
 
-Object::Object(char displayChar, const Position &position, ObjectType type) : displayChar(displayChar),
-                                                                              position(position), type(type) {}
-char Object::getDisplayChar() const {
+Object::Object(int displayChar, const Position &position, ObjectType type) : displayChar(displayChar),
+                                                                             position(position), type(type) {}
+
+int Object::getDisplayChar() const {
     return displayChar;
 }
 
