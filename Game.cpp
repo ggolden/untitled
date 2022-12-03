@@ -4,12 +4,13 @@
 #include "Level.h"
 #include "Command.h"
 
+#define ESC 0x1b
+
 Game::Game() {
     init();
 }
 
 void Game::init() {
-    // construct levels
     levels.emplace_back("Singularity", Size(9, 14), Position(5, 5));
     levels.emplace_back("DO NOT ENTER", Size(5, 5), Position(10, 10));
 }
@@ -17,7 +18,7 @@ void Game::init() {
 Command Game::parse(int input) {
     switch (input) {
         case 'q':
-        case 0x1b: // ESC
+        case ESC:
             return Command::QUIT;
 
         case KEY_UP:

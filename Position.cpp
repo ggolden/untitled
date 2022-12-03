@@ -11,7 +11,6 @@ int Position::getCol() const {
 }
 
 Position Position::operator+(const Position &positionToAdd) const {
-    // return Position(row + positionToAdd.getRow(), col + positionToAdd.getCol());
     return {row + positionToAdd.getRow(), col + positionToAdd.getCol()};
 }
 

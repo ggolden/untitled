@@ -1,7 +1,7 @@
 #ifndef UNTITLED_PLAYER_H
 #define UNTITLED_PLAYER_H
 
-#include "Position.h"
+#include "../Position.h"
 //#include "Terminal.h"
 #include "Object.h"
 

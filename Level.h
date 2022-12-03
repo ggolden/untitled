@@ -5,8 +5,8 @@
 #include <vector>
 #include "Size.h"
 #include "Terminal.h"
-#include "Player.h"
-#include "Object.h"
+#include "objects/Player.h"
+#include "objects/Object.h"
 
 class Level {
     std::string name;

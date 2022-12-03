@@ -8,7 +8,7 @@
 #include <vector>
 #include "Level.h"
 #include "Terminal.h"
-#include "Player.h"
+#include "objects/Player.h"
 #include "Command.h"
 
 class Game {

@@ -12,10 +12,8 @@ Terminal::Terminal(bool debug) : debug(debug) {
         keypad(stdscr, true);
         set_escdelay(100);
 
-//    timeout(0); // for non-blocking getch()
-//        noecho();
-//        clear(); // or erase()?
-//        refresh();
+        // timeout(0); // TODO: for non-blocking getch()
+
     } else {
     }
 }
