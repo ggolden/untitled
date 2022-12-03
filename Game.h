@@ -8,16 +8,21 @@
 #include <vector>
 #include "Level.h"
 #include "Terminal.h"
+#include "Position.h"
+#include "objects/Object.h"
 #include "objects/Player.h"
 #include "Command.h"
 
 class Game {
     std::vector<Level> levels;
-    Player player {0, Position(1,1)};
+    Player player{0, Position(1, 1)};
 
     void init();
+
     static Command parse(int input);
-    void movePlayerIfPossible(const Position & newPosition, const Object &objectAtPosition);
+
+    void movePlayerIfPossible(const Position &newPosition, const Object &objectAtPosition);
+
     bool processPlayerInteraction(const Object &objectAtPosition);
 
     Position computeNewPlayerPosition(Command command);

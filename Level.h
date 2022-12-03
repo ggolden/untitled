@@ -3,29 +3,24 @@
 
 #include <string>
 #include <vector>
-#include "Size.h"
+#include "Position.h"
 #include "Terminal.h"
-#include "objects/Player.h"
 #include "objects/Object.h"
+#include "Room.h"
 
 class Level {
     std::string name;
-    Size size;
-    Position offset;
     std::vector<Object> objects;
+    std::vector<Room> rooms;
 
     void init();
-    void createWalls();
+    void createRooms();
     void createGoal();
 
 public:
-    Level(std::string name, const Size &size, const Position &offset);
+    Level(std::string name);
 
     const std::string &getName() const;
-
-    const Position &getOffset() const;
-
-    const Size &getSize() const;
 
     void display(Terminal &terminal) const;
 

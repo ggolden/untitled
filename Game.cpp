@@ -11,8 +11,8 @@ Game::Game() {
 }
 
 void Game::init() {
-    levels.emplace_back("Singularity", Size(9, 14), Position(5, 5));
-    levels.emplace_back("DO NOT ENTER", Size(5, 5), Position(10, 10));
+    levels.emplace_back("Singularity");
+    levels.emplace_back("DO NOT ENTER");
 }
 
 Command Game::parse(int input) {
@@ -76,7 +76,7 @@ void Game::play(Terminal &terminal) {
 
         // setup for displaying the current level
         Level &level = levels.at(player.getLevelIndex());
-        terminal.setOffset(level.getOffset());
+//        terminal.setOffset(level.getOffset());
 
         level.display(terminal);
         player.display(terminal);

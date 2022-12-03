@@ -1,51 +1,35 @@
 #include "Level.h"
+#include "Room.h"
 #include "objects/Object.h"
-#include "objects/Wall.h"
 #include "objects/ObjectType.h"
 #include "objects/Goal.h"
 
-Level::Level(std::string name, const Size &size, const Position &offset) : name(name), size(size), offset(offset) {
+Level::Level(std::string name) : name(name) {
     init();
 }
 
 void Level::init() {
-    createWalls();
+    createRooms();
     createGoal();
 }
 
-void Level::createWalls() {
-    objects.push_back(Wall(Wall::CORNER, Position(0, 0)));
-    for (int col = 1; col < size.getCols() - 1; col++) {
-        objects.push_back(Wall(Wall::HORIZONTAL, Position(0, col)));
-    }
-    objects.push_back(Wall(Wall::CORNER, Position(0, size.getCols() - 1)));
+void Level::createRooms() {
+    Room room1{Size(9, 14), Position(0, 0)};
+    room1.init(objects);
+    rooms.push_back(room1);
 
-    for (int row = 1; row < size.getRows() - 1; row++) {
-        objects.push_back(Wall(Wall::VERTICAL, Position(row, 0)));
-        objects.push_back(Wall(Wall::VERTICAL, Position(row, size.getCols() - 1)));
-    }
+    Room room2{Size(9, 14), Position(3, 14)};
+    room2.init(objects);
+    rooms.push_back(room2);
 
-    objects.push_back(Wall(Wall::CORNER, Position(size.getRows() - 1, 0)));
-    for (int col = 1; col < size.getCols() - 1; col++) {
-        objects.push_back(Wall(Wall::HORIZONTAL, Position(size.getRows() - 1, col)));
-    }
-    objects.push_back(Wall(Wall::CORNER, Position(size.getRows() - 1, size.getCols() - 1)));
 }
 
 void Level::createGoal() {
-    objects.push_back(Goal(Position(size.getRows() - 2, size.getCols() - 2)));
+    objects.push_back(Goal(Position(3, 3)));
 }
 
 const std::string &Level::getName() const {
     return name;
-}
-
-const Position &Level::getOffset() const {
-    return offset;
-}
-
-const Size &Level::getSize() const {
-    return size;
 }
 
 void Level::display(Terminal &terminal) const {
