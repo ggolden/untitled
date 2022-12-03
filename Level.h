@@ -25,6 +25,8 @@ public:
     void display(Terminal &terminal) const;
 
     Object getObjectAt(const Position &position) const;
+
+    void deleteObjectAt(const Position &position);
 };
 
 #endif //UNTITLED_LEVEL_H

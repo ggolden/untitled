@@ -22,10 +22,12 @@ void Level::createRooms() {
     room2.init(objects);
     rooms.push_back(room2);
 
+    deleteObjectAt(Position(5, 13));
+    deleteObjectAt(Position(5, 14));
 }
 
 void Level::createGoal() {
-    objects.push_back(Goal(Position(3, 3)));
+    objects.push_back(Goal(Position(9, 25)));
 }
 
 const std::string &Level::getName() const {
@@ -47,3 +49,12 @@ Object Level::getObjectAt(const Position &position) const {
 
     return {' ', position, ObjectType::SPACE};
 }
+
+void Level::deleteObjectAt(const Position &position) {
+    for (int i = 0; i < objects.size(); i++) {
+        if (objects.at(i).getPosition() == position) {
+            objects.erase(objects.begin() + i);
+            break;
+        }
+    }
+};
