@@ -16,6 +16,7 @@ class Level {
     void init();
     void createRooms();
     void createGoal();
+    void createObstacles();
 
 public:
     Level(std::string name);

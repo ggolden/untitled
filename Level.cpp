@@ -3,6 +3,7 @@
 #include "objects/Object.h"
 #include "objects/ObjectType.h"
 #include "objects/Goal.h"
+#include "objects/Obstacle.h"
 
 Level::Level(std::string name) : name(name) {
     init();
@@ -11,6 +12,7 @@ Level::Level(std::string name) : name(name) {
 void Level::init() {
     createRooms();
     createGoal();
+    createObstacles();
 }
 
 void Level::createRooms() {
@@ -28,6 +30,10 @@ void Level::createRooms() {
 
 void Level::createGoal() {
     objects.push_back(Goal(Position(9, 25)));
+}
+
+void Level::createObstacles() {
+    objects.push_back(Obstacle(Position(7, 23)));
 }
 
 const std::string &Level::getName() const {

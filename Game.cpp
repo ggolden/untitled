@@ -68,8 +68,18 @@ Position Game::computeNewPlayerPosition(Command command) {
 
 bool Game::processPlayerInteraction(const Object &objectAtPosition) {
     bool goalAchieved = objectAtPosition.getType() == ObjectType::GOAL;
-    player.setWon(goalAchieved);
-    return !goalAchieved;
+    if (goalAchieved) {
+        player.setWon(true);
+        return false;
+    }
+
+    bool obstacle = objectAtPosition.getType() == ObjectType::OBSTACLE;
+    if (obstacle) {
+        player.setWon(false);
+        return false;
+    }
+
+    return true;
 }
 
 void Game::showTitle(Terminal &terminal) {
