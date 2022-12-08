@@ -11,3 +11,11 @@ int Player::getLevelIndex() const {
 void Player::setLevelIndex(int levelIndex) {
     Player::levelIndex = levelIndex;
 }
+
+bool Player::didWin() const {
+    return won;
+}
+
+void Player::setWon(bool won) {
+    Player::won = won;
+}

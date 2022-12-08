@@ -20,7 +20,13 @@ public:
 
     void display(int c, const Position &position);
 
+    void display(const char* str, const Position &position);
+
     int read();
+
+    int rows();
+
+    int cols();
 };
 
 #endif //UNTITLED_TERMINAL_H

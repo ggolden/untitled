@@ -3,6 +3,9 @@
 #include "Game.h"
 #include "Level.h"
 #include "Command.h"
+#include "screens/Title.h"
+#include "screens/WinScreen.h"
+#include "screens/LoseScreen.h"
 
 #define ESC 0x1b
 
@@ -51,9 +54,9 @@ void Game::movePlayerIfPossible(const Position &newPosition, const Object &objec
 Position Game::computeNewPlayerPosition(Command command) {
     switch (command) {
         case Command::UP:
-            return player.getPosition() + Position(-1, 0);
+            return player.getPosition() + Position {-1, 0};
         case Command::RIGHT:
-            return player.getPosition() + Position(0, 1);
+            return player.getPosition() + Position{0, 1};
         case Command::DOWN:
             return player.getPosition() + Position(1, 0);
         case Command::LEFT:
@@ -65,10 +68,31 @@ Position Game::computeNewPlayerPosition(Command command) {
 
 bool Game::processPlayerInteraction(const Object &objectAtPosition) {
     bool goalAchieved = objectAtPosition.getType() == ObjectType::GOAL;
+    player.setWon(goalAchieved);
     return !goalAchieved;
 }
 
-void Game::play(Terminal &terminal) {
+void Game::showTitle(Terminal &terminal) {
+    Title title;
+
+    terminal.clearScreen();
+    title.display(terminal);
+    terminal.read();
+}
+
+void Game::showEndScreen(Terminal &terminal) {
+    terminal.clearScreen();;
+    if (player.didWin()) {
+         WinScreen winScreen;
+         winScreen.display(terminal);
+    } else {
+        LoseScreen loseScreen;
+        loseScreen.display(terminal);
+    }
+    terminal.read();
+}
+
+void Game::gameLoop(Terminal &terminal) {
     do {
         terminal.clearScreen();
 
@@ -95,4 +119,10 @@ void Game::play(Terminal &terminal) {
             break;
         }
     } while (true);
+}
+
+void Game::play(Terminal &terminal) {
+    showTitle(terminal);
+    gameLoop(terminal);
+    showEndScreen(terminal);
 }

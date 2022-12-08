@@ -14,6 +14,13 @@ public:
     int getLevelIndex() const;
 
     void setLevelIndex(int levelIndex);
+
+    bool didWin() const;
+
+    void setWon(bool won);
+
+private:
+    bool won = false;
 };
 
 #endif //UNTITLED_PLAYER_H

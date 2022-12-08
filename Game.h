@@ -27,10 +27,16 @@ class Game {
 
     Position computeNewPlayerPosition(Command command);
 
+    void showTitle(Terminal &terminal);
+
+    void gameLoop(Terminal &terminal);
+
 public:
     Game();
 
     void play(Terminal &terminal);
+
+    void showEndScreen(Terminal &terminal);
 };
 
 #endif //UNTITLED_GAME_H

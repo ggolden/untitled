@@ -54,6 +54,11 @@ void Terminal::display(int c, const Position &position) {
     }
 }
 
+void Terminal::display(const char* str, const Position &position) {
+    Position offsetPosition = position + offset;
+    mvaddstr(offsetPosition.getRow(), offsetPosition.getCol(), str);
+}
+
 int Terminal::read() {
     if (!debug) {
         return getch();
@@ -62,4 +67,12 @@ int Terminal::read() {
         std::cin >> c;
         return c;
     }
+}
+
+int Terminal::rows() {
+    return LINES;
+}
+
+int Terminal::cols() {
+    return COLS;
 }
