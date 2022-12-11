@@ -14,8 +14,20 @@ Game::Game() {
 }
 
 void Game::init() {
-    levels.emplace_back("Singularity");
-    levels.emplace_back("DO NOT ENTER");
+    std::string name = "Level";
+    Level level(name);
+    level.addRoom(Size(19, 14), Position(0, 0));
+    level.addRoom(Size(19, 14), Position(3, 25));
+    level.addRoom(Size(5,5), Position(28, 4));
+
+    level.addHorizontalHall(13, Position(8, 13));
+    level.addVerticalHall(11, Position(18, 5));
+
+    level.addObstacle(Position(7, 3));
+    level.addGoal(Position(5, 29));
+    levels.push_back(level);
+
+    player.setPosition({1,1});
 }
 
 Command Game::parse(int input) {
@@ -110,7 +122,6 @@ void Game::gameLoop(Terminal &terminal) {
 
         // setup for displaying the current level
         Level &level = levels.at(player.getLevelIndex());
-//        terminal.setOffset(level.getOffset());
 
         level.display(terminal);
         player.display(terminal);

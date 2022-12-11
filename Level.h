@@ -6,20 +6,16 @@
 #include "Position.h"
 #include "Terminal.h"
 #include "objects/Object.h"
-#include "Room.h"
+#include "Size.h"
 
 class Level {
     std::string name;
     std::vector<Object> objects;
-    std::vector<Room> rooms;
 
-    void init();
-    void createRooms();
-    void createGoal();
-    void createObstacles();
+    void putObject(const Object &object);
 
 public:
-    Level(std::string name);
+    Level(const std::string& name);
 
     const std::string &getName() const;
 
@@ -28,6 +24,16 @@ public:
     Object getObjectAt(const Position &position) const;
 
     void deleteObjectAt(const Position &position);
+
+    void addRoom(const Size &size, const Position &position);
+
+    void addObstacle(const Position &position);
+
+    void addGoal(const Position &position);
+
+    void addHorizontalHall(int length, const Position &position);
+
+    void addVerticalHall(int length, const Position &position);
 };
 
 #endif //UNTITLED_LEVEL_H

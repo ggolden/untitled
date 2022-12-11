@@ -15,7 +15,7 @@
 
 class Game {
     std::vector<Level> levels;
-    Player player{0, Position(1, 1)};
+    Player player{0, Position(0, 0)};
 
     void init();
 

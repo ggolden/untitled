@@ -1,39 +1,12 @@
 #include "Level.h"
-#include "Room.h"
 #include "objects/Object.h"
 #include "objects/ObjectType.h"
 #include "objects/Goal.h"
 #include "objects/Obstacle.h"
+#include "objects/Wall.h"
 
-Level::Level(std::string name) : name(name) {
-    init();
-}
-
-void Level::init() {
-    createRooms();
-    createGoal();
-    createObstacles();
-}
-
-void Level::createRooms() {
-    Room room1{Size(9, 14), Position(0, 0)};
-    room1.init(objects);
-    rooms.push_back(room1);
-
-    Room room2{Size(9, 14), Position(3, 14)};
-    room2.init(objects);
-    rooms.push_back(room2);
-
-    deleteObjectAt(Position(5, 13));
-    deleteObjectAt(Position(5, 14));
-}
-
-void Level::createGoal() {
-    objects.push_back(Goal(Position(9, 25)));
-}
-
-void Level::createObstacles() {
-    objects.push_back(Obstacle(Position(7, 23)));
+void Level::putObject(const Object &object) {
+    objects.push_back(object);
 }
 
 const std::string &Level::getName() const {
@@ -63,4 +36,72 @@ void Level::deleteObjectAt(const Position &position) {
             break;
         }
     }
-};
+}
+
+void Level::addRoom(const Size &size, const Position &position) {
+    putObject(Wall(Wall::CORNER, Position(0, 0) + position));
+    for (int col = 1; col < size.getCols() - 1; col++) {
+        putObject(Wall(Wall::HORIZONTAL, Position(0, col) + position));
+    }
+    putObject(Wall(Wall::CORNER, Position(0, size.getCols() - 1) + position));
+
+    for (int row = 1; row < size.getRows() - 1; row++) {
+        putObject(Wall(Wall::VERTICAL, Position(row, 0) + position));
+        putObject(Wall(Wall::VERTICAL, Position(row, size.getCols() - 1) + position));
+    }
+
+    putObject(Wall(Wall::CORNER, Position(size.getRows() - 1, 0) + position));
+    for (int col = 1; col < size.getCols() - 1; col++) {
+        putObject(Wall(Wall::HORIZONTAL, Position(size.getRows() - 1, col) + position));
+    }
+    putObject(Wall(Wall::CORNER, Position(size.getRows() - 1, size.getCols() - 1) + position));
+}
+
+void Level::addHorizontalHall(int length, const Position &position) {
+    Size size{3, length};
+
+    for (int row = 0; row < size.getRows(); row++) {
+        deleteObjectAt(position + Position(row, 0));
+        deleteObjectAt(position + Position(row, size.getCols() - 1));
+    }
+
+    putObject(Wall(Wall::CORNER, Position(0, 0) + position));
+    putObject(Wall(Wall::CORNER, Position(size.getRows() - 1, 0) + position));
+    for (int col = 1; col < size.getCols() - 1; col++) {
+        putObject(Wall(Wall::HORIZONTAL, Position(0, col) + position));
+        putObject(Wall(Wall::HORIZONTAL, Position(size.getRows() - 1, col) + position));
+    }
+    putObject(Wall(Wall::CORNER, Position(0, size.getCols() - 1) + position));
+    putObject(Wall(Wall::CORNER, Position(size.getRows() - 1, length - 1) + position));
+}
+
+void Level::addVerticalHall(int length, const Position &position) {
+    Size size{length, 3};
+
+    for (int col = 0; col < size.getCols(); col++) {
+        deleteObjectAt(position + Position(0, col));
+        deleteObjectAt(position + Position(size.getRows() - 1, col));
+    }
+
+    putObject(Wall(Wall::CORNER, Position(0, 0) + position));
+    putObject(Wall(Wall::CORNER, Position(0, size.getCols() - 1) + position));
+    for (int row = 1; row < size.getRows() - 1; row++) {
+        putObject(Wall(Wall::VERTICAL, Position(row, 0) + position));
+        putObject(Wall(Wall::VERTICAL, Position(row, size.getCols() - 1) + position));
+    }
+    putObject(Wall(Wall::CORNER, Position(size.getRows() - 1, 0) + position));
+    putObject(Wall(Wall::CORNER, Position(size.getRows() - 1, size.getCols() - 1) + position));
+}
+
+void Level::addObstacle(const Position &position) {
+    putObject(Obstacle(position));
+}
+
+void Level::addGoal(const Position &position) {
+    putObject(Goal(position));
+}
+
+Level::Level(const std::string &name) : name(name) {
+
+}
+
