@@ -15,7 +15,7 @@ class Level {
     void putObject(const Object &object);
 
 public:
-    Level(const std::string& name);
+    explicit Level(const std::string &name);
 
     const std::string &getName() const;
 
@@ -34,6 +34,8 @@ public:
     void addHorizontalHall(int length, const Position &position);
 
     void addVerticalHall(int length, const Position &position);
+
+    Position addBlueprint(const std::string &level, int width);
 };
 
 #endif //UNTITLED_LEVEL_H
