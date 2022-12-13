@@ -12,10 +12,8 @@ class Level {
     std::string name;
     std::vector<Object> objects;
 
-    void putObject(const Object &object);
-
 public:
-    Level(const std::string& name);
+    Level(const std::string &name);
 
     const std::string &getName() const;
 
@@ -34,6 +32,8 @@ public:
     void addHorizontalHall(int length, const Position &position);
 
     void addVerticalHall(int length, const Position &position);
+
+    void putObject(const Object &object);
 };
 
 #endif //UNTITLED_LEVEL_H

@@ -6,6 +6,8 @@ enum class ObjectType {
     WALL,
     GOAL,
     OBSTACLE,
+    KEY,
+    DOOR,
     SPACE
 };
 

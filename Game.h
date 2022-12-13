@@ -21,9 +21,9 @@ class Game {
 
     static Command parse(int input);
 
-    void movePlayerIfPossible(const Position &newPosition, const Object &objectAtPosition);
+    void movePlayerIfPossible(const Position &newPosition, const Object &objectAtPosition, Level& level);
 
-    bool processPlayerInteraction(const Object &objectAtPosition);
+    bool processPlayerInteraction(const Object &objectAtPosition, Level& level);
 
     Position computeNewPlayerPosition(Command command);
 

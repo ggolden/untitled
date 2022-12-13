@@ -6,6 +6,10 @@
 #include "screens/Title.h"
 #include "screens/WinScreen.h"
 #include "screens/LoseScreen.h"
+#include "objects/Key.h"
+#include "objects/Door.h"
+#include "objects/Obstacle.h"
+#include "objects/Goal.h"
 
 #define ESC 0x1b
 
@@ -18,16 +22,19 @@ void Game::init() {
     Level level(name);
     level.addRoom(Size(19, 14), Position(0, 0));
     level.addRoom(Size(19, 14), Position(3, 25));
-    level.addRoom(Size(5,5), Position(28, 4));
+    level.addRoom(Size(5, 5), Position(28, 4));
 
     level.addHorizontalHall(13, Position(8, 13));
     level.addVerticalHall(11, Position(18, 5));
 
-    level.addObstacle(Position(7, 3));
-    level.addGoal(Position(5, 29));
+    level.putObject(Door(Position(9, 15)));
+    level.putObject(Key(Position(7, 7)));
+    level.putObject(Obstacle(Position(7, 3)));
+    level.putObject(Goal(Position(5, 29)));
+
     levels.push_back(level);
 
-    player.setPosition({1,1});
+    player.setPosition({1, 1});
 }
 
 Command Game::parse(int input) {
@@ -57,8 +64,12 @@ Command Game::parse(int input) {
     }
 }
 
-void Game::movePlayerIfPossible(const Position &newPosition, const Object &objectAtPosition) {
-    if (objectAtPosition.getType() != ObjectType::WALL) {
+void Game::movePlayerIfPossible(const Position &newPosition, const Object &objectAtPosition, Level &level) {
+    if (objectAtPosition.getType() == ObjectType::DOOR) {
+        if (player.hasInIventory(ObjectType::KEY)) {
+            level.deleteObjectAt(objectAtPosition.getPosition());
+        }
+    } else if (objectAtPosition.getType() != ObjectType::WALL) {
         player.setPosition(newPosition);
     }
 }
@@ -66,7 +77,7 @@ void Game::movePlayerIfPossible(const Position &newPosition, const Object &objec
 Position Game::computeNewPlayerPosition(Command command) {
     switch (command) {
         case Command::UP:
-            return player.getPosition() + Position {-1, 0};
+            return player.getPosition() + Position{-1, 0};
         case Command::RIGHT:
             return player.getPosition() + Position{0, 1};
         case Command::DOWN:
@@ -78,7 +89,7 @@ Position Game::computeNewPlayerPosition(Command command) {
     }
 }
 
-bool Game::processPlayerInteraction(const Object &objectAtPosition) {
+bool Game::processPlayerInteraction(const Object &objectAtPosition, Level &level) {
     bool goalAchieved = objectAtPosition.getType() == ObjectType::GOAL;
     if (goalAchieved) {
         player.setWon(true);
@@ -89,6 +100,12 @@ bool Game::processPlayerInteraction(const Object &objectAtPosition) {
     if (obstacle) {
         player.setWon(false);
         return false;
+    }
+
+    bool key = objectAtPosition.getType() == ObjectType::KEY;
+    if (key) {
+        player.addToInventory(objectAtPosition);
+        level.deleteObjectAt(objectAtPosition.getPosition());
     }
 
     return true;
@@ -105,8 +122,8 @@ void Game::showTitle(Terminal &terminal) {
 void Game::showEndScreen(Terminal &terminal) {
     terminal.clearScreen();;
     if (player.didWin()) {
-         WinScreen winScreen;
-         winScreen.display(terminal);
+        WinScreen winScreen;
+        winScreen.display(terminal);
     } else {
         LoseScreen loseScreen;
         loseScreen.display(terminal);
@@ -133,8 +150,8 @@ void Game::gameLoop(Terminal &terminal) {
         Command command = parse(input);
         Position newPlayerPosition = computeNewPlayerPosition(command);
         Object objectAtPosition = level.getObjectAt(newPlayerPosition);
-        movePlayerIfPossible(newPlayerPosition, objectAtPosition);
-        bool gameRunning = processPlayerInteraction(objectAtPosition);
+        movePlayerIfPossible(newPlayerPosition, objectAtPosition, level);
+        bool gameRunning = processPlayerInteraction(objectAtPosition, level);
 
         if (command == Command::QUIT || !gameRunning) {
             break;
