@@ -12,6 +12,7 @@ class Object {
 
 public:
     Object(int displayChar, const Position &position, ObjectType type);
+    virtual ~Object() = default;
 
     int getDisplayChar() const;
 

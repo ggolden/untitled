@@ -10,6 +10,7 @@
 #include "objects/Door.h"
 #include "objects/Obstacle.h"
 #include "objects/Goal.h"
+#include "objects/Coin.h"
 
 #define ESC 0x1b
 
@@ -28,11 +29,13 @@ void Game::init() {
     level.addVerticalHall(11, Position(18, 5));
 
     level.putObject(Door(Position(9, 15)));
+    level.putObject(Coin(Position(9, 17), 1));
     level.putObject(Key(Position(7, 7)));
     level.putObject(Obstacle(Position(7, 3)));
     level.putObject(Goal(Position(5, 29)));
-
+    level.putObject(Coin(Position(8,7), 2));
     levels.push_back(level);
+
 
     player.setPosition({1, 1});
 }
@@ -108,6 +111,12 @@ bool Game::processPlayerInteraction(const Object &objectAtPosition, Level &level
         level.deleteObjectAt(objectAtPosition.getPosition());
     }
 
+    bool coin = objectAtPosition.getType() == ObjectType::COIN;
+    if (coin) {
+//        const Coin* coinPtr = dynamic_cast<const Coin*>(&objectAtPosition);
+//        player.addToCoins(*coinPtr);
+        level.deleteObjectAt(objectAtPosition.getPosition());
+    }
     return true;
 }
 

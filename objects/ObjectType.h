@@ -8,6 +8,7 @@ enum class ObjectType {
     OBSTACLE,
     KEY,
     DOOR,
+    COIN,
     SPACE
 };
 

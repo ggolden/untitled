@@ -33,3 +33,7 @@ bool Player::hasInIventory(ObjectType objectType) {
 
     return false;
 }
+
+void Player::addToCoins(const Coin &coin) {
+    coins += coin.getAmount();
+}
