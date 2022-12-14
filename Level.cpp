@@ -1,9 +1,14 @@
+#include <utility>
+
 #include "Level.h"
-//#include "objects/Object.h"
-//#include "objects/ObjectType.h"
 #include "objects/Goal.h"
 #include "objects/Obstacle.h"
 #include "objects/Wall.h"
+#include "objects/Key.h"
+#include "objects/Door.h"
+#include "objects/Coin.h"
+
+Level::Level(std::string name) : name(std::move(name)) {}
 
 void Level::putObject(const Object &object) {
     objects.push_back(object);
@@ -14,13 +19,13 @@ const std::string &Level::getName() const {
 }
 
 void Level::display(Terminal &terminal) const {
-    for (Object object: objects) {
+    for (auto &object: objects) {
         object.display(terminal);
     }
 }
 
 Object Level::getObjectAt(const Position &position) const {
-    for (Object object: objects) {
+    for (auto &object: objects) {
         if (object.getPosition() == position) {
             return object;
         }
@@ -30,7 +35,7 @@ Object Level::getObjectAt(const Position &position) const {
 }
 
 void Level::deleteObjectAt(const Position &position) {
-    for (int i = 0; i < objects.size(); i++) {
+    for (auto i = 0; i < objects.size(); i++) {
         if (objects.at(i).getPosition() == position) {
             objects.erase(objects.begin() + i);
             break;
@@ -40,18 +45,18 @@ void Level::deleteObjectAt(const Position &position) {
 
 void Level::addRoom(const Size &size, const Position &position) {
     putObject(Wall(Wall::CORNER, Position(0, 0) + position));
-    for (int col = 1; col < size.getCols() - 1; col++) {
+    for (auto col = 1; col < size.getCols() - 1; col++) {
         putObject(Wall(Wall::HORIZONTAL, Position(0, col) + position));
     }
     putObject(Wall(Wall::CORNER, Position(0, size.getCols() - 1) + position));
 
-    for (int row = 1; row < size.getRows() - 1; row++) {
+    for (auto row = 1; row < size.getRows() - 1; row++) {
         putObject(Wall(Wall::VERTICAL, Position(row, 0) + position));
         putObject(Wall(Wall::VERTICAL, Position(row, size.getCols() - 1) + position));
     }
 
     putObject(Wall(Wall::CORNER, Position(size.getRows() - 1, 0) + position));
-    for (int col = 1; col < size.getCols() - 1; col++) {
+    for (auto col = 1; col < size.getCols() - 1; col++) {
         putObject(Wall(Wall::HORIZONTAL, Position(size.getRows() - 1, col) + position));
     }
     putObject(Wall(Wall::CORNER, Position(size.getRows() - 1, size.getCols() - 1) + position));
@@ -60,14 +65,14 @@ void Level::addRoom(const Size &size, const Position &position) {
 void Level::addHorizontalHall(int length, const Position &position) {
     Size size{3, length};
 
-    for (int row = 0; row < size.getRows(); row++) {
+    for (auto row = 0; row < size.getRows(); row++) {
         deleteObjectAt(position + Position(row, 0));
         deleteObjectAt(position + Position(row, size.getCols() - 1));
     }
 
     putObject(Wall(Wall::CORNER, Position(0, 0) + position));
     putObject(Wall(Wall::CORNER, Position(size.getRows() - 1, 0) + position));
-    for (int col = 1; col < size.getCols() - 1; col++) {
+    for (auto col = 1; col < size.getCols() - 1; col++) {
         putObject(Wall(Wall::HORIZONTAL, Position(0, col) + position));
         putObject(Wall(Wall::HORIZONTAL, Position(size.getRows() - 1, col) + position));
     }
@@ -78,14 +83,14 @@ void Level::addHorizontalHall(int length, const Position &position) {
 void Level::addVerticalHall(int length, const Position &position) {
     Size size{length, 3};
 
-    for (int col = 0; col < size.getCols(); col++) {
+    for (auto col = 0; col < size.getCols(); col++) {
         deleteObjectAt(position + Position(0, col));
         deleteObjectAt(position + Position(size.getRows() - 1, col));
     }
 
     putObject(Wall(Wall::CORNER, Position(0, 0) + position));
     putObject(Wall(Wall::CORNER, Position(0, size.getCols() - 1) + position));
-    for (int row = 1; row < size.getRows() - 1; row++) {
+    for (auto row = 1; row < size.getRows() - 1; row++) {
         putObject(Wall(Wall::VERTICAL, Position(row, 0) + position));
         putObject(Wall(Wall::VERTICAL, Position(row, size.getCols() - 1) + position));
     }
@@ -93,16 +98,24 @@ void Level::addVerticalHall(int length, const Position &position) {
     putObject(Wall(Wall::CORNER, Position(size.getRows() - 1, size.getCols() - 1) + position));
 }
 
-void Level::addObstacle(const Position &position) {
-    putObject(Obstacle(position));
-}
-
 void Level::addGoal(const Position &position) {
     putObject(Goal(position));
 }
 
-Level::Level(const std::string &name) : name(name) {
+void Level::addObstacle(const Position &position) {
+    putObject(Obstacle(position));
+}
 
+void Level::addKey(const Position &position) {
+    putObject(Key(position));
+}
+
+void Level::addDoor(const Position &position) {
+    putObject(Door(position));
+}
+
+void Level::addCoin(const Position &position, int value) {
+    putObject(Coin(position, value));
 }
 
 Position Level::addBlueprint(const std::string &level, int width = 80) {
@@ -128,6 +141,18 @@ Position Level::addBlueprint(const std::string &level, int width = 80) {
                 break;
             case 'P':
                 addGoal(Position{row, col});
+                break;
+            case 'K':
+                addKey(Position{row, col});
+                break;
+            case 'D':
+                addDoor(Position{row, col});
+                break;
+            case 'c':
+                addCoin(Position{row, col}, 1);
+                break;
+            case 'C':
+                addCoin(Position{row, col}, 10);
                 break;
             default:
                 break;

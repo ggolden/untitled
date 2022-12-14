@@ -15,12 +15,15 @@ Terminal::Terminal(bool debug) : debug(debug) {
         // timeout(0); // TODO: for non-blocking getch()
 
     } else {
+        std::cout << "Terminal()" << std::endl;
     }
 }
 
 Terminal::~Terminal() {
     if (!debug) {
         endwin();
+    } else {
+        std::cout << "~Terminal init" << std::endl;
     }
 }
 
@@ -32,7 +35,7 @@ void Terminal::clearScreen() {
     if (!debug) {
         erase(); // clear();
     } else {
-        std::cout << "CLEAR" << std::endl << std::endl;
+        std::cout << "CLEAR" << std::endl;
     }
 }
 
@@ -40,7 +43,7 @@ void Terminal::refreshScreen() {
     if (!debug) {
         refresh();
     } else {
-        std::cout << "REFRESH" << std::endl << std::endl;
+        std::cout << "REFRESH" << std::endl;
     }
 }
 
@@ -54,9 +57,13 @@ void Terminal::display(int c, const Position &position) {
     }
 }
 
-void Terminal::display(const char* str, const Position &position) {
+void Terminal::display(const char *str, const Position &position) {
     Position offsetPosition = position + offset;
-    mvaddstr(offsetPosition.getRow(), offsetPosition.getCol(), str);
+    if (!debug) {
+        mvaddstr(offsetPosition.getRow(), offsetPosition.getCol(), str);
+    } else {
+        std::cout << str << " @ " << offsetPosition.getRow() << "," << offsetPosition.getCol() << std::endl;
+    }
 }
 
 int Terminal::read() {
@@ -70,9 +77,17 @@ int Terminal::read() {
 }
 
 int Terminal::rows() {
-    return LINES;
+    if (!debug) {
+        return LINES;
+    } else {
+        return 24;
+    }
 }
 
 int Terminal::cols() {
-    return COLS;
+    if (!debug) {
+        return COLS;
+    } else {
+        return 80;
+    }
 }

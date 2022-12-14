@@ -4,8 +4,8 @@
 #include "Position.h"
 
 class Terminal {
-    bool debug;
-    Position offset{0, 0}; // same as = Position(0,0);
+    bool debug = false;
+    Position offset{0, 0};
 
 public:
     explicit Terminal(bool debug = false);
@@ -20,7 +20,7 @@ public:
 
     void display(int c, const Position &position);
 
-    void display(const char* str, const Position &position);
+    void display(const char *str, const Position &position);
 
     int read();
 

@@ -22,7 +22,7 @@ public:
 
     ObjectType getType() const;
 
-    void display(Terminal &terminal);
+    void display(Terminal &terminal) const;
 };
 
 #endif //UNTITLED_OBJECT_H

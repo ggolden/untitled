@@ -12,8 +12,10 @@ class Level {
     std::string name;
     std::vector<Object> objects;
 
+    void putObject(const Object &object);
+
 public:
-    explicit Level(const std::string &name);
+    explicit Level(std::string name);
 
     const std::string &getName() const;
 
@@ -25,15 +27,19 @@ public:
 
     void addRoom(const Size &size, const Position &position);
 
-    void addObstacle(const Position &position);
-
-    void addGoal(const Position &position);
-
     void addHorizontalHall(int length, const Position &position);
 
     void addVerticalHall(int length, const Position &position);
 
-    void putObject(const Object &object);
+    void addGoal(const Position &position);
+
+    void addObstacle(const Position &position);
+
+    void addKey(const Position &position);
+
+    void addDoor(const Position &position);
+
+    void addCoin(const Position &position, int value);
 
     Position addBlueprint(const std::string &level, int width);
 };

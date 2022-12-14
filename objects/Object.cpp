@@ -19,6 +19,6 @@ ObjectType Object::getType() const {
     return type;
 }
 
-void Object::display(Terminal &terminal) {
+void Object::display(Terminal &terminal) const {
     terminal.display(getDisplayChar(), getPosition());
 }
