@@ -14,6 +14,8 @@
 #include "Command.h"
 
 class Game {
+    static std::string level1;
+
     std::vector<Level> levels;
     Player player{0, Position(0, 0)};
 
@@ -37,6 +39,7 @@ public:
     void play(Terminal &terminal);
 
     void showEndScreen(Terminal &terminal);
+
 };
 
 #endif //UNTITLED_GAME_H

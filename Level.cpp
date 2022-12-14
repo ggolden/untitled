@@ -1,6 +1,6 @@
 #include "Level.h"
-#include "objects/Object.h"
-#include "objects/ObjectType.h"
+//#include "objects/Object.h"
+//#include "objects/ObjectType.h"
 #include "objects/Goal.h"
 #include "objects/Obstacle.h"
 #include "objects/Wall.h"
@@ -105,3 +105,38 @@ Level::Level(const std::string &name) : name(name) {
 
 }
 
+Position Level::addBlueprint(const std::string &level, int width = 80) {
+    int row = 0;
+    int col = 0;
+    Position playerPosition{1, 1};
+    for (char c: level) {
+        switch (c) {
+            case '+':
+                putObject(Wall(Wall::CORNER, Position(row, col)));
+                break;
+            case '=':
+                putObject(Wall(Wall::HORIZONTAL, Position(row, col)));
+                break;
+            case '|':
+                putObject(Wall(Wall::VERTICAL, Position(row, col)));
+                break;
+            case '@':
+                playerPosition = {row, col};
+                break;
+            case '#':
+                addObstacle(Position{row, col});
+                break;
+            case 'P':
+                addGoal(Position{row, col});
+                break;
+            default:
+                break;
+        }
+        col++;
+        if (col >= width) {
+            col = 0;
+            row++;
+        }
+    }
+    return playerPosition;
+}
