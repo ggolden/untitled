@@ -28,6 +28,8 @@ public:
 
     void addToCoins(int value);
 
+    int getCoins() const;
+
     bool hasInInventory(ObjectType objectType);
 
 private:

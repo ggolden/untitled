@@ -166,13 +166,13 @@ void Game::showTitle(Terminal &terminal) {
 }
 
 void Game::showEndScreen(Terminal &terminal) {
-    terminal.clearScreen();;
+    terminal.clearScreen();
     if (player.didWin()) {
         WinScreen winScreen;
-        winScreen.display(terminal);
+        winScreen.display(player, terminal);
     } else {
         LoseScreen loseScreen;
-        loseScreen.display(terminal);
+        loseScreen.display(player, terminal);
     }
     terminal.read();
 }
