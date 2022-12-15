@@ -181,9 +181,20 @@ void Game::gameLoop(Terminal &terminal) {
     do {
         terminal.clearScreen();
 
+        // display the UI
+        terminal.setOffset({0,0});
+        char buf[128];
+        snprintf(buf, 128, "Coins: %d", player.getCoins());
+        terminal.display(buf, Position {1,0});
+
+        if (player.hasInInventory(ObjectType::KEY)) {
+            terminal.display("Key!", Position {1,15});
+        }
+
         // display all things in the current level
 
         // setup for displaying the current level
+        terminal.setOffset({3,0});
         Level &level = levels.at(player.getLevelIndex());
 
         level.display(terminal);
