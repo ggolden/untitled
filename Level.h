@@ -1,6 +1,7 @@
 #ifndef UNTITLED_LEVEL_H
 #define UNTITLED_LEVEL_H
 
+#include <memory>
 #include <string>
 #include <vector>
 #include "Position.h"
@@ -10,9 +11,9 @@
 
 class Level {
     std::string name;
-    std::vector<Object> objects;
+    std::vector<std::unique_ptr<Object>> objects;
 
-    void putObject(const Object &object);
+    void putObject(Object * object);
 
 public:
     explicit Level(std::string name);
@@ -21,9 +22,9 @@ public:
 
     void display(Terminal &terminal) const;
 
-    Object getObjectAt(const Position &position) const;
+    const Object * getObjectAt(const Position &position) const;
 
-    void deleteObjectAt(const Position &position);
+    std::unique_ptr<Object> deleteObjectAt(const Position &position);
 
     void addRoom(const Size &size, const Position &position);
 

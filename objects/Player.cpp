@@ -20,13 +20,13 @@ void Player::setWon(bool won) {
     Player::won = won;
 }
 
-void Player::addToInventory(const Object &object) {
-    inventory.push_back(object);
+void Player::addToInventory(std::unique_ptr<Object> &object) {
+    inventory.push_back(std::move(object));
 }
 
-bool Player::hasInIventory(ObjectType objectType) {
-    for (auto item: inventory) {
-        if (item.getType() == objectType) {
+bool Player::hasInInventory(ObjectType objectType) {
+    for (auto &item: inventory) {
+        if (item->getType() == objectType) {
             return true;
         }
     }
@@ -34,6 +34,6 @@ bool Player::hasInIventory(ObjectType objectType) {
     return false;
 }
 
-void Player::addToCoins(const Coin &coin) {
-    coins += coin.getAmount();
+void Player::addToCoins(int value) {
+    coins += value;
 }

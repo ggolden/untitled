@@ -1,6 +1,7 @@
 #ifndef UNTITLED_PLAYER_H
 #define UNTITLED_PLAYER_H
 
+#include <memory>
 #include <vector>
 #include "../Position.h"
 //#include "Terminal.h"
@@ -9,7 +10,7 @@
 
 class Player : public Object {
     int levelIndex = 0;
-    std::vector<Object> inventory;
+    std::vector<std::unique_ptr<Object>> inventory;
     int coins = 0;
 
 public:
@@ -23,11 +24,11 @@ public:
 
     void setWon(bool won);
 
-    void addToInventory(const Object& object);
+    void addToInventory(std::unique_ptr<Object>& object);
 
-    void addToCoins(const Coin& coin);
+    void addToCoins(int value);
 
-    bool hasInIventory(ObjectType objectType);
+    bool hasInInventory(ObjectType objectType);
 
 private:
     bool won = false;
