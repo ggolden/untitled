@@ -4,7 +4,6 @@
 #include <memory>
 #include <vector>
 #include "../Position.h"
-//#include "Terminal.h"
 #include "Object.h"
 #include "Coin.h"
 

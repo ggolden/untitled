@@ -1,7 +1,3 @@
-//
-// Created by Glenn R. Golden on 12/8/22.
-//
-
 #include "LoseScreen.h"
 
 void LoseScreen::display(const Player & player, Terminal &terminal) {

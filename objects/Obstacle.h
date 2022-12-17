@@ -8,5 +8,4 @@ public:
     explicit Obstacle(const Position &position);
 };
 
-
 #endif //UNTITLED_OBSTACLE_H
