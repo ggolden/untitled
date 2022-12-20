@@ -9,6 +9,8 @@ enum class ObjectType {
     KEY,
     DOOR,
     COIN,
+    STAIRS_UP,
+    STAIRS_DOWN,
     SPACE
 };
 

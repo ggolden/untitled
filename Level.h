@@ -42,6 +42,10 @@ public:
 
     void addCoin(const Position &position, int value);
 
+    void addStairsUp(const Position &position);
+
+    void addStairsDown(const Position &position);
+
     Position addBlueprint(const std::string &level, int width);
 };
 

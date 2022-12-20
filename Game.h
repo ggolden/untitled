@@ -14,6 +14,7 @@
 #include "Command.h"
 
 class Game {
+    static std::string level0;
     static std::string level1;
 
     std::vector<Level> levels;

@@ -7,6 +7,8 @@
 #include "objects/Key.h"
 #include "objects/Door.h"
 #include "objects/Coin.h"
+#include "objects/StairsUp.h"
+#include "objects/StairsDown.h"
 
 Level::Level(std::string name) : name(std::move(name)) {}
 
@@ -120,6 +122,14 @@ void Level::addCoin(const Position &position, int value) {
     putObject(new Coin(position, value));
 }
 
+void Level::addStairsUp(const Position &position) {
+    putObject(new StairsUp(position));
+}
+
+void Level::addStairsDown(const Position &position) {
+    putObject(new StairsDown(position));
+}
+
 Position Level::addBlueprint(const std::string &level, int width = 80) {
     int row = 0;
     int col = 0;
@@ -155,6 +165,12 @@ Position Level::addBlueprint(const std::string &level, int width = 80) {
                 break;
             case 'C':
                 addCoin(Position{row, col}, 10);
+                break;
+            case '^':
+                addStairsUp(Position{row, col});
+                break;
+            case 'v':
+                addStairsDown(Position{row, col});
                 break;
             default:
                 break;
