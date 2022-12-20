@@ -9,20 +9,28 @@
 #include "objects/Coin.h"
 #include "objects/StairsUp.h"
 #include "objects/StairsDown.h"
+#include "objects/Player.h"
 
-Level::Level(std::string name) : name(std::move(name)) {}
+
+Level::Level(std::string name, int visibilityDistance) : name(std::move(name)), visibilityDistance(visibilityDistance) {}
 
 void Level::putObject(Object *object) {
     objects.push_back(std::unique_ptr<Object>(object));
+}
+
+bool Level::shouldObjectDisplay(const Position &playerPosition, const Position &objectPosition) const {
+    return (objectPosition.distance(playerPosition) <= visibilityDistance);
 }
 
 const std::string &Level::getName() const {
     return name;
 }
 
-void Level::display(Terminal &terminal) const {
+void Level::display(const Player &player, Terminal &terminal) const {
     for (auto &object: objects) {
-        object->display(terminal);
+        if (shouldObjectDisplay(player.getPosition(), object->getPosition())) {
+            object->display(terminal);
+        }
     }
 }
 

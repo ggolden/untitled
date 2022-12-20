@@ -8,21 +8,25 @@
 #include "Terminal.h"
 #include "objects/Object.h"
 #include "Size.h"
+#include "objects/Player.h"
 
 class Level {
     std::string name;
     std::vector<std::unique_ptr<Object>> objects;
+    int visibilityDistance;
 
-    void putObject(Object * object);
+    void putObject(Object *object);
+
+    bool shouldObjectDisplay(const Position &playerPosition, const Position &objectPosition) const;
 
 public:
-    explicit Level(std::string name);
+    explicit Level(std::string name, int visibilityDistance);
 
     const std::string &getName() const;
 
-    void display(Terminal &terminal) const;
+    void display(const Player &player, Terminal &terminal) const;
 
-    const Object * getObjectAt(const Position &position) const;
+    const Object *getObjectAt(const Position &position) const;
 
     std::unique_ptr<Object> deleteObjectAt(const Position &position);
 

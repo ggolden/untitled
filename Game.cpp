@@ -74,7 +74,7 @@ std::string Game::level1{""
 // @formatter:on
 
 void Game::init() {
-    Level level0("Level0");
+    Level level0("Level0", 9);
     Position playerPosition = level0.addBlueprint(Game::level0, 80);
 //    level.addRoom(Size(19, 14), Position(0, 0));
 //    level.addRoom(Size(19, 14), Position(3, 25));
@@ -88,7 +88,7 @@ void Game::init() {
 
     levels.push_back(std::move(level0));
 
-    Level level1("Level1");
+    Level level1("Level1",5);
     level1.addBlueprint(Game::level1, 80);
     levels.push_back(std::move(level1));
 
@@ -231,7 +231,7 @@ void Game::gameLoop(Terminal &terminal) {
         terminal.setOffset({3,0});
         Level &level = levels.at(player.getLevelIndex());
 
-        level.display(terminal);
+        level.display(player, terminal);
         player.display(terminal);
 
         terminal.refreshScreen();

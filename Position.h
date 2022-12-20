@@ -12,6 +12,8 @@ public:
 
     int getCol() const;
 
+    double distance(const Position& other) const;
+
     Position operator+(const Position &positionToAdd) const;
 
     bool operator==(const Position &otherPosition) const;
