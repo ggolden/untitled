@@ -56,7 +56,9 @@ public:
 
     void addStairsDown(const Position &position);
 
-    void addBouncer(const Position &position);
+    void addHorizontalBouncer(const Position &position);
+
+    void addVerticalBouncer(const Position &position);
 
     void addRando(const Position &position);
 

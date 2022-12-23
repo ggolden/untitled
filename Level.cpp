@@ -161,8 +161,12 @@ void Level::addStairsDown(const Position &position) {
     putObject(new StairsDown(position));
 }
 
-void Level::addBouncer(const Position &position) {
-    putActiveObject(new Bouncer(position));
+void Level::addHorizontalBouncer(const Position &position) {
+    putActiveObject(new Bouncer(position, Bouncer::HORIZONTAL));
+}
+
+void Level::addVerticalBouncer(const Position &position) {
+    putActiveObject(new Bouncer(position, Bouncer::VERTICAL));
 }
 
 void Level::addRando(const Position &position) {
@@ -215,7 +219,10 @@ Position Level::addBlueprint(const std::string &level, int width = 80) {
                 addRando(Position{row, col});
                 break;
             case 'B':
-                addBouncer(Position{row, col});
+                addHorizontalBouncer(Position{row, col});
+                break;
+            case 'V':
+                addVerticalBouncer(Position{row, col});
                 break;
             default:
                 break;
