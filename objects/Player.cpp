@@ -41,3 +41,11 @@ void Player::addToCoins(int value) {
 int Player::getCoins() const {
     return coins;
 }
+
+void Player::kill() {
+    alive = false;
+}
+
+bool Player::isAlive() {
+    return alive;
+}

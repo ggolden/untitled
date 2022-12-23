@@ -1,7 +1,3 @@
-//
-// Created by Glenn R. Golden on 11/21/22.
-//
-
 #ifndef UNTITLED_GAME_H
 #define UNTITLED_GAME_H
 
@@ -26,7 +22,7 @@ class Game {
 
     void movePlayerIfPossible(const Position &newPosition, const Object *objectAtPosition, Level& level);
 
-    bool processPlayerInteraction(const Object *objectAtPosition, Level& level);
+    void processPlayerInteraction(const Object *objectAtPosition, Level& level);
 
     Position computeNewPlayerPosition(Command command);
 

@@ -1,13 +1,19 @@
 #include <cstdlib>
-#include <iostream>
 #include "Rando.h"
 
 Rando::Rando(const Position &position) : ActiveObject('R', position, ObjectType::RANDO) {}
 
-void Rando::act(Player &player) {
+void Rando::act(Player &player, const Level &level) {
     Position newPosition = adjustedPosition();
-    std::cout << "BOO" << std::endl;
-    setPosition(newPosition);
+    const Object * object = level.getObjectAt(newPosition);
+
+    if (player.getPosition() == newPosition) {
+        player.kill();
+    }
+
+    if (!object || object->getType() != ObjectType::WALL) {
+        setPosition(newPosition);
+    }
 }
 
 Position Rando::adjustedPosition() const {

@@ -11,6 +11,7 @@ class Player : public Object {
     int levelIndex = 0;
     std::vector<std::unique_ptr<Object>> inventory;
     int coins = 0;
+    bool alive = true;
 
 public:
     Player(int startingLevelIndex, const Position &startingPosition);
@@ -30,6 +31,10 @@ public:
     int getCoins() const;
 
     bool hasInInventory(ObjectType objectType);
+
+    void kill();
+
+    bool isAlive();
 
 private:
     bool won = false;

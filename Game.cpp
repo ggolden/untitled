@@ -156,39 +156,45 @@ Position Game::computeNewPlayerPosition(Command command) {
     }
 }
 
-bool Game::processPlayerInteraction(const Object *objectAtPosition, Level &level) {
+void Game::processPlayerInteraction(const Object *objectAtPosition, Level &level) {
     if (!objectAtPosition) {
-        return true;
+        return;
     }
 
-    if (objectAtPosition->getType() == ObjectType::GOAL) {
-        player.setWon(true);
-        return false;
-    }
-
-    if (objectAtPosition->getType() == ObjectType::OBSTACLE) {
-        player.setWon(false);
-        return false;
-    }
-
-    if (objectAtPosition->getType() == ObjectType::KEY) {
-        auto key = level.deleteObjectAt(objectAtPosition->getPosition());
-        if (key) {
-            player.addToInventory(key);
+    switch (objectAtPosition->getType()) {
+        case ObjectType::GOAL: {
+            player.setWon(true);
+            break;
         }
-    }
-
-    if (objectAtPosition->getType() == ObjectType::COIN) {
-        auto coinObj = level.deleteObjectAt(objectAtPosition->getPosition());
-        if (coinObj) {
-            const Coin *coin = dynamic_cast<const Coin *>(coinObj.get());
-            if (coin) {
-                player.addToCoins(coin->getAmount());
+        case ObjectType::OBSTACLE: {
+            player.kill();
+            break;
+        }
+        case ObjectType::KEY: {
+            auto key = level.deleteObjectAt(objectAtPosition->getPosition());
+            if (key) {
+                player.addToInventory(key);
             }
+            break;
         }
+        case ObjectType::COIN: {
+            auto coinObj = level.deleteObjectAt(objectAtPosition->getPosition());
+            if (coinObj) {
+                const Coin *coin = dynamic_cast<const Coin *>(coinObj.get());
+                if (coin) {
+                    player.addToCoins(coin->getAmount());
+                }
+            }
+            break;
+        }
+        case ObjectType::BOUNCER:
+        case ObjectType::RANDO: {
+            player.kill();
+            break;
+        }
+        default:
+            break;
     }
-
-    return true;
 }
 
 void Game::showTitle(Terminal &terminal) {
@@ -242,16 +248,16 @@ void Game::gameLoop(Terminal &terminal) {
         Position newPlayerPosition = computeNewPlayerPosition(command);
         auto objectAtPosition = level.getObjectAt(newPlayerPosition);
         movePlayerIfPossible(newPlayerPosition, objectAtPosition, level);
-        bool gameRunning = processPlayerInteraction(objectAtPosition, level);
+        processPlayerInteraction(objectAtPosition, level);
 
-        if (command == Command::QUIT || !gameRunning) {
+        if (command == Command::QUIT) {
             break;
         }
 
         Level &newLevel = levels.at(player.getLevelIndex());
         newLevel.tick(player);
 
-    } while (true);
+    } while (!player.didWin() && player.isAlive());
 }
 
 void Game::play(Terminal &terminal) {

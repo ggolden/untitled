@@ -4,11 +4,13 @@
 #include "Object.h"
 #include "Player.h"
 
+class Level;
+
 class ActiveObject : public Object {
 public:
     ActiveObject(int displayChar, const Position &position, ObjectType type);
 
-    virtual void act(Player &player) = 0;
+    virtual void act(Player &player, const Level &level) = 0;
 };
 
 #endif //UNTITLED_ACTIVEOBJECT_H

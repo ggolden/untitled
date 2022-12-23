@@ -2,7 +2,7 @@
 
 Bouncer::Bouncer(const Position &position) : ActiveObject('B', position, ObjectType::BOUNCER) {}
 
-void Bouncer::act(Player &player) {
+void Bouncer::act(Player &player, const Level &level) {
 
 }
 

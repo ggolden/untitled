@@ -2,6 +2,8 @@
 #include "Terminal.h"
 
 int main() {
+    srand(time(nullptr));
+
     Terminal terminal;
     Game game;
 
