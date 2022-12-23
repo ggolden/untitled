@@ -8,7 +8,7 @@ void Bouncer::act(Player &player, const Level &level) {
     const Object * object = level.getObjectAt(newPosition);
 
     if (player.getPosition() == newPosition) {
-        player.kill();
+        player.kill("A Bouncer got you!");
     }
 
     if (object && (object->getType() == ObjectType::WALL || object->getType() == ObjectType::DOOR)) {

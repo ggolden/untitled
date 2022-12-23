@@ -5,5 +5,5 @@ void WinScreen::display(const Player &player, Terminal &terminal) {
 
     char buf[128];
     snprintf(buf, 128, "You had %d coins.", player.getCoins());
-    terminal.display(buf, Position {11,10});
+    terminal.display(buf, Position {12,10});
 }

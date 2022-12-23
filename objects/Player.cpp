@@ -42,10 +42,15 @@ int Player::getCoins() const {
     return coins;
 }
 
-void Player::kill() {
+void Player::kill(std::string message) {
     alive = false;
+    Player::message = message;
 }
 
 bool Player::isAlive() {
     return alive;
+}
+
+std::string Player::getMessage() const {
+    return message;
 }

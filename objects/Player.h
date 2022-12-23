@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <string>
 #include "../Position.h"
 #include "Object.h"
 #include "Coin.h"
@@ -12,6 +13,7 @@ class Player : public Object {
     std::vector<std::unique_ptr<Object>> inventory;
     int coins = 0;
     bool alive = true;
+    std::string message;
 
 public:
     Player(int startingLevelIndex, const Position &startingPosition);
@@ -32,9 +34,11 @@ public:
 
     bool hasInInventory(ObjectType objectType);
 
-    void kill();
+    void kill(std::string message);
 
     bool isAlive();
+
+    std::string getMessage() const;
 
 private:
     bool won = false;

@@ -8,10 +8,10 @@ void Rando::act(Player &player, const Level &level) {
     const Object * object = level.getObjectAt(newPosition);
 
     if (player.getPosition() == newPosition) {
-        player.kill();
+        player.kill("Caught by the Rando!");
     }
 
-    if (!object || object->getType() != ObjectType::WALL) {
+    if (!object || (object->getType() != ObjectType::WALL && object->getType() != ObjectType::DOOR)) {
         setPosition(newPosition);
     }
 }
