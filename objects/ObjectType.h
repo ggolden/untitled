@@ -11,6 +11,8 @@ enum class ObjectType {
     COIN,
     STAIRS_UP,
     STAIRS_DOWN,
+    BOUNCER,
+    RANDO,
     SPACE
 };
 

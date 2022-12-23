@@ -10,12 +10,18 @@
 #include "objects/StairsUp.h"
 #include "objects/StairsDown.h"
 #include "objects/Player.h"
+#include "objects/Bouncer.h"
+#include "objects/Rando.h"
 
-
-Level::Level(std::string name, int visibilityDistance) : name(std::move(name)), visibilityDistance(visibilityDistance) {}
+Level::Level(std::string name, int visibilityDistance) : name(std::move(name)),
+                                                         visibilityDistance(visibilityDistance) {}
 
 void Level::putObject(Object *object) {
     objects.push_back(std::unique_ptr<Object>(object));
+}
+
+void Level::putActiveObject(ActiveObject *object) {
+    objects.push_back(std::unique_ptr<ActiveObject>(object));
 }
 
 bool Level::shouldObjectDisplay(const Position &playerPosition, const Position &objectPosition) const {
@@ -31,6 +37,17 @@ void Level::display(const Player &player, Terminal &terminal) const {
         if (shouldObjectDisplay(player.getPosition(), object->getPosition())) {
             object->display(terminal);
         }
+    }
+    for (auto &object: activeObjects) {
+        if (shouldObjectDisplay(player.getPosition(), object->getPosition())) {
+            object->display(terminal);
+        }
+    }
+}
+
+void Level::tick(Player &player) {
+    for (auto &object: activeObjects) {
+        object->act(player);
     }
 }
 
@@ -138,6 +155,14 @@ void Level::addStairsDown(const Position &position) {
     putObject(new StairsDown(position));
 }
 
+void Level::addBouncer(const Position &position) {
+    putActiveObject(new Bouncer(position));
+}
+
+void Level::addRando(const Position &position) {
+    putActiveObject(new Rando(position));
+}
+
 Position Level::addBlueprint(const std::string &level, int width = 80) {
     int row = 0;
     int col = 0;
@@ -179,6 +204,12 @@ Position Level::addBlueprint(const std::string &level, int width = 80) {
                 break;
             case 'v':
                 addStairsDown(Position{row, col});
+                break;
+            case 'R':
+                addRando(Position{row, col});
+                break;
+            case 'B':
+                addBouncer(Position{row, col});
                 break;
             default:
                 break;

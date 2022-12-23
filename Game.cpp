@@ -22,7 +22,7 @@ Game::Game() {
 // @formatter:off
 std::string Game::level0{""
 "+=====================================+........................................."
-"|@....................................|......+================+................."
+"|@...R................................|......+================+................."
 "|.....v..........#......c.............|......|................|................."
 "|............#...................#....+======+................|................."
 "|.....#...............................D....................#..|................."
@@ -88,7 +88,7 @@ void Game::init() {
 
     levels.push_back(std::move(level0));
 
-    Level level1("Level1",5);
+    Level level1("Level1", 5);
     level1.addBlueprint(Game::level1, 80);
     levels.push_back(std::move(level1));
 
@@ -133,9 +133,9 @@ void Game::movePlayerIfPossible(const Position &newPosition, const Object *objec
             level.deleteObjectAt(objectAtPosition->getPosition());
         }
     } else if (objectAtPosition->getType() == ObjectType::STAIRS_DOWN) {
-        player.setLevelIndex(player.getLevelIndex()+1);
+        player.setLevelIndex(player.getLevelIndex() + 1);
     } else if (objectAtPosition->getType() == ObjectType::STAIRS_UP) {
-        player.setLevelIndex(player.getLevelIndex()-1);
+        player.setLevelIndex(player.getLevelIndex() - 1);
     } else if (objectAtPosition->getType() != ObjectType::WALL) {
         player.setPosition(newPosition);
     }
@@ -216,19 +216,19 @@ void Game::gameLoop(Terminal &terminal) {
         terminal.clearScreen();
 
         // display the UI
-        terminal.setOffset({0,0});
+        terminal.setOffset({0, 0});
         char buf[128];
         snprintf(buf, 128, "Coins: %d", player.getCoins());
-        terminal.display(buf, Position {1,0});
+        terminal.display(buf, Position{1, 0});
 
         if (player.hasInInventory(ObjectType::KEY)) {
-            terminal.display("Key!", Position {1,15});
+            terminal.display("Key!", Position{1, 15});
         }
 
         // display all things in the current level
 
         // setup for displaying the current level
-        terminal.setOffset({3,0});
+        terminal.setOffset({3, 0});
         Level &level = levels.at(player.getLevelIndex());
 
         level.display(player, terminal);
@@ -247,6 +247,10 @@ void Game::gameLoop(Terminal &terminal) {
         if (command == Command::QUIT || !gameRunning) {
             break;
         }
+
+        Level &newLevel = levels.at(player.getLevelIndex());
+        newLevel.tick(player);
+
     } while (true);
 }
 
